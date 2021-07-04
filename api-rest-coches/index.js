@@ -117,55 +117,40 @@ app.get('/api/:colecciones', (req, res, next) => {
 	});
 });
 
-// Obtengo un objeto específico de la colección especificada
-app.get('/api/reservas/:id', (req, res, next) => {
-	const queColeccion = req.params.colecciones;
-	const queId = req.params.id;
 
-	console.log(queId, "hola");
-
-	if(queId < 100){
-		// Hay que convertir el id a objeto ID
-		db.collection("reservas").findOne({"idProveedor": queId}, (err, elemento) =>{
-			if(err) return next(err);
-
-			console.log(elemento);
-			res.json({
-					result: 'OK',
-					colecciones: queColeccion,
-					elemento: elemento
-			});
-		});
-	}
-	else{
-		db.collection("reservas").findOne({"idUsuario": queId}, (err, elemento) =>{
-			if(err) return next(err);
-
-			console.log(elemento);
-			res.json({
-					result: 'OK',
-					colecciones: queColeccion,
-					elemento: elemento
-			});
-		});
-	}
-});
 
 // Obtengo un objeto específico de la colección especificada
 app.get('/api/:colecciones/:id', (req, res, next) => {
 	const queColeccion = req.params.colecciones;
 	const queId = req.params.id;
-	// Hay que convertir el id a objeto ID
-	db.collection(queColeccion).findOne({ _id: id(queId)}, (err, elemento) =>{
-		if(err) return next(err);
 
-		console.log(elemento);
-		res.json({
-				result: 'OK',
-				colecciones: queColeccion,
-				elemento: elemento
+	try{
+		id(queId);
+		db.collection(queColeccion).findOne({ _id: id(queId)}, (err, elemento) =>{
+			if(err) return next(err);
+	
+			console.log(elemento);
+			res.json({
+					result: 'OK',
+					colecciones: queColeccion,
+					elemento: elemento
+			});
 		});
-	});
+	}
+	catch(Error){
+		console.log(queId);
+		db.collection(queColeccion).findOne({ "idUsuario": queId}, (err, elemento) =>{
+			if(err) return next(err);
+	
+			console.log(elemento);
+			res.json({
+					result: 'OK',
+					colecciones: queColeccion,
+					elemento: elemento
+			});
+		});
+
+	}
 });
 
 app.post(('/api/:coleccion'), auth, (req, res, next) => {
@@ -215,40 +200,84 @@ app.post(('/api/:coleccion'), auth, (req, res, next) => {
 	}
 });
 
+app.put(('/api/:coleccion/:id/:id2'), auth, (req, res, next) => {
+	const queId = req.params.id;
+	const queId2 = req.params.id2;
+	const idReserva = req.body.idReserva;
+	const queColeccion = req.params.coleccion;
+	const nuevoElemento = req.body;
+
+	try{
+		id(queId)
+		db.collection(queColeccion).update(
+			{_id: id(queId2)},
+			{$set: nuevoElemento},
+			{safe: true, multi: false},
+			(err, resultado) => {
+				if(err) return next(err)
+
+				console.log(resultado);
+
+				res.json({
+					result: 'OK',
+					coleccion: queColeccion,
+					resultado: resultado
+				});
+			}
+		);
+	}
+	catch(Error){
+		db.collection(queColeccion).find({"idProveedor": queId}, (err, elemento) => {
+			if(elemento != null){
+				console.log(elemento);
+				db.collection(queColeccion).update(
+					{_id: _id},
+					{$set: nuevoElemento},
+					{safe: true, multi: false},
+					(err, resultado) => {
+						if(err) return next(err)
+	
+						console.log(resultado);
+	
+						res.json({
+							result: 'OK',
+							coleccion: queColeccion,
+							resultado: resultado
+						});
+					}
+				);
+			}
+			else{
+				res.json({
+					mensaje: "ID de proveedor erróneo"
+				});
+			}
+		});	
+	}	
+});
+
 app.put(('/api/:coleccion/:id'), auth, (req, res, next) => {
 	const queId = req.params.id;
 	const idReserva = req.body.idReserva;
 	const queColeccion = req.params.coleccion;
 	const nuevoElemento = req.body;
 
-	console.log(queId, idReserva, queColeccion, nuevoElemento);
-	
-	db.collection(queColeccion).find({"idProveedor": queId}, (err, elemento) => {
-		if(elemento != null){
-			console.log(elemento);
-			db.collection(queColeccion).update(
-				{_id: idReserva},
-				{$set: nuevoElemento},
-				{safe: true, multi: false},
-				(err, resultado) => {
-					if(err) return next(err)
+	db.collection(queColeccion).update(
+		{_id: id(queId)},
+		{$set: nuevoElemento},
+		{safe: true, multi: false},
+		(err, resultado) => {
+			if(err) return next(err)
 
-					console.log(resultado);
+			console.log(resultado);
 
-					res.json({
-						result: 'OK',
-						coleccion: queColeccion,
-						resultado: resultado
-					});
-				}
-			);
-		}
-		else{
 			res.json({
-				mensaje: "ID de proveedor erróneo"
+				result: 'OK',
+				coleccion: queColeccion,
+				resultado: resultado
 			});
 		}
-	});	
+	);
 });
 
 app.delete(('/api/:coleccion/:id'), auth, (req, res, next) => {

@@ -1,7 +1,7 @@
 'use strict'
 
 const port = process.env.PORT || 3101;
-const miIp = "192.168.0.9";
+const miIp = "localhost";
 
 const ipVuelos = "192.168.0.9";
 const ipHotel = "192.168.0.9";

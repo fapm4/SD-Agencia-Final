@@ -9,7 +9,7 @@ export class TasksService {
   puertoCoches = "3001";
   puertoVuelos = "3000";
   puertoHoteles = "3002";
-  miIp = "192.168.0.9";
+  miIp = "localhost";
   miPuerto = "3101";
 
   private URL = `https://${this.miIp}:${this.miPuerto}/api`;
