@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+ <!-- Required Bootstrap meta tags -->
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+ <!-- Bootstrap CSS -->
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+crossorigin="anonymous">
+ <!-- Font-awesome CSS (para los iconos) -->
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/fontawesome.min.css">
+ <title>ToDoApp</title>
+ <base href="/">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+ <!-- Punto de entrada a la aplicación -->
+ <!-- Incorporamos una barra de navegación de Bootstrap -->
+ <nav class="navbar navbar-expoand-lg nav-light bg-light">
+ <div class="container">
+ <a class="navbar-brand" href="#">toDo Application for DS</a>
+ </div>
+ </nav>
+ <!-- Montamos el Layout de la aplicación -->
+ <div class="container">
+ <div class="row">
+ <div class="col-auto">
+ <img width="75" alt="Angular Logo"
+src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTA
+gMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzL
+jcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4
+yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43L
+TI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
+ </div>
+ <div class="col-10">
+ <!-- Formulario de creación de tareas pendientes (toDo's)-->
+ <div class="card">
+ <div class="card-body">
+ <form (submit)="addTask($event)">
+ <div class="input-group">
+ <input type="text" [(ngModel)]="titulo" name="titulo" class="form-control" placeholder="Añade una tarea">
+ <span class="input-group-addon">
+ <button type="submit" class="btn btn-primary">
+ Añadir tarea
+ </button>
+ </span>
+ </div>
+ </form>
+ </div>
+ </div>
+ <!-- Lista de tareas creadas (pendientes o no) -->
+ <table class="table text-center table-hover">
+ <thead>
+ <tr>
+ <th>Estado</th>
+ <th>Título</th>
+ <th>Acciones</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr *ngFor="let task of tasks">
+ <td>
+ <input type="checkbox" [checked]="task.isDone" (click)="updateStatus(task)">
+ </td>
+ <td>
+ {{ task.title }}
+ </td>
+ <td>
+ <button class="btn btn-danger" (click)="deleteTask(task._id)">
+ <i class="fa fa-trash"></i>
+ </button>
+ </td>
+ </tr>
+ </tbody>
+ </table>
+ </div>
+ </div>
+ </div>
+ <!-- Optional JavaScript -->
+ <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+ <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-
+KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+crossorigin="anonymous"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-
+JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+</body>
+</html>
