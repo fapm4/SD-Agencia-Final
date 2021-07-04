@@ -21,7 +21,9 @@
             <nav class="nav">
                 <ul>
                     <li *ngFor="let us of dataUsuarios">
-                        {{us.user}}
+                        ID: {{us._id}}
+                        <br>
+                        Nombre: {{us.user}}
                     </li>
                 </ul>
             </nav>
@@ -154,6 +156,15 @@
             <button type="submit" class="btn btn-primary btn-block">
                 Mostrar datos de objeto específico de la tabla de un proveedor
             </button>
+            <nav class="nav">
+                <ul>
+                    <li *ngFor="let data of dataObjetoEspecifico">
+                        <ul>
+                            {{data}}
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
         </form>
     </li>
     <li class="list-group-item">
@@ -164,6 +175,16 @@
             <button type="submit" class="btn btn-primary btn-block">
                 Mostrar reservas de un usuario o de un proveedor
             </button>
+            <nav class="nav">
+                <ul>
+                    <li *ngFor="let data of dataReservas">
+                        <ul>
+                            {{data}}
+                            <br>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
         </form>
     </li>
 </ul>

@@ -14,7 +14,8 @@
         <input type="text" [(ngModel)]="coleccion.nombreColeccion" placeholder="Nombre de la coleccion">
         <input type="text" [(ngModel)]="objeto.objeto" placeholder="Objeto JSON">
         <input type="text" [(ngModel)]="idProveedor.idProveedor" placeholder="ID del proveedor">
-        <form (submit)="putObjetoEnColeccion(proveedor.nombreProveedor, coleccion.nombreColeccion, objeto.objeto, idProveedor.idProveedor)">
+        <input type="text" [(ngModel)]="idReserva.idReserva" placeholder="ID de la reserva">
+        <form (submit)="putObjetoEnColeccion(proveedor.nombreProveedor, coleccion.nombreColeccion, objeto.objeto, idProveedor.idProveedor, idReserva.idReserva)">
             <button type="submit" class="btn btn-primary btn-block">
                 Modificar un elemento en la reserva del proveedor
             </button>

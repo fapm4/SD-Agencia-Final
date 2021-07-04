@@ -467,78 +467,24 @@ app.get('/api/:proveedores/:colecciones', (req, res, next) => {
     .catch(err => console.log(err));
 });
 
-app.get('/api/:proveedores/reservas/:id', (req, res, next) => {
-    const queColeccion = req.params.colecciones;
-    var queURL = isProveedor(req ,res, next);
-    const queID = req.params.id;
-
-    var collection = db.collection("reservas");
-    queURL += '/reservas' + `/${queID}`;
-    console.log(queURL);
-
-    
-});
-
 app.get('/api/:proveedores/:colecciones/:id', (req, res, next) => {
     const queColeccion = req.params.colecciones;
     var queURL = isProveedor(req ,res, next);
     const queID = req.params.id;
 
-    console.log(queColeccion);
-    console.log(quURL);
-    if(queColeccion == "reservas"){
-        if(queID < 100){
-            collection.find({"idProveedor": queID},(err, elemento) => {
-                if(err) res.json(`Id: ${queID}, no tiene reservas`);
-                else{
-                    fetch(queURL)
-                    .then(res => res.json())
-                    .then(json => {
-                        res.json( {
-                            result: json.result,
-                            colecciones: queColeccion,
-                            elemento: json.elemento
-                        });
-                    })
-                    .catch(err => console.log(err));
-                }
-            });
-        }
-        else{
-            collection.find({"idUsuario": id(queID)},(err, elemento) => {
-                if(err) res.json(`Id: ${queID}, no tiene reservas`);
-                else{
-                    fetch(queURL)
-                    .then(res => res.json())
-                    .then(json => {
-                        res.json( {
-                            result: json.result,
-                            colecciones: queColeccion,
-                            elemento: json.elemento
-                        });
-                    })
-                    .catch(err => console.log(err));
-                }
-            });
-        }
-    }
-    else{
-        collection.find({_id: id(queID)},(err, elemento) => {
-            if(err) res.json(`Id: ${queID}, no tiene reservas`);
-            else{
-                fetch(queURL)
-                .then(res => res.json())
-                .then(json => {
-                    res.json( {
-                        result: json.result,
-                        colecciones: queColeccion,
-                        elemento: json.elemento
-                    });
-                })
-                .catch(err => console.log(err));
-            }
+    
+    queURL += `/${queID}`;
+    
+    fetch(queURL)
+    .then(res => res.json())
+    .then(json => {
+        res.json( {
+            result: json.result,
+            colecciones: queColeccion,
+            elemento: json.elemento
         });
-    }
+    })
+    .catch(err => console.log(err));
 });
 
 

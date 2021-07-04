@@ -46,8 +46,8 @@ export class PrivateTasksComponent implements OnInit {
     )
   }
 
-  putObjetoEnColeccion(proveedor:string, coleccion: string, objeto: string, idProv: string){
-    this.tasksService.putObjetoEnColeccion(proveedor, coleccion, objeto, idProv)
+  putObjetoEnColeccion(proveedor:string, coleccion: string, objeto: string, idProv: string, idRev: string){
+    this.tasksService.putObjetoEnColeccion(proveedor, coleccion, objeto, idProv, idRev)
     .subscribe(
       res => {
         console.log(res)

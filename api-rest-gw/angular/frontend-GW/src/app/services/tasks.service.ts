@@ -47,7 +47,9 @@ export class TasksService {
         break;
     }
 
+
     newURL += '/api' + `/${coleccion}` + `/${id}`;
+    console.log(newURL);
     return this.httpClient.get<any>(newURL);
   }
 
@@ -92,7 +94,7 @@ export class TasksService {
     return this.httpClient.post<any>(newURL, JSON.parse(objeto));
   }
 
-  putObjetoEnColeccion(proveedor:string, coleccion: string, objeto: string, idProv: string){
+  putObjetoEnColeccion(proveedor:string, coleccion: string, objeto: string, idProv: string, idRev: string){
     const user = localStorage.getItem('user');
     var newURL = `https://${this.miIp}:`;
     switch(proveedor){
@@ -111,7 +113,7 @@ export class TasksService {
 
 
     console.log(objeto);
-    newURL += '/api' + `/${proveedor}` + `/${coleccion}` + `/${user}` + `/${idProv}`;
+    newURL += '/api' + `/${proveedor}` + `/${coleccion}` + `/${idRev}`;
     console.log(newURL);
     return this.httpClient.put<any>(newURL, JSON.parse(objeto));
   }

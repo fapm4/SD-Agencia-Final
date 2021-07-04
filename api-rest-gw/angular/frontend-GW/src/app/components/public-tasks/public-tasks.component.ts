@@ -27,6 +27,7 @@ export class PublicTasksComponent implements OnInit {
   dataTablesProveedor: any = [];
   dataTableProveedorEspecifica: any = [];
   dataObjetoEspecifico: any = [];
+  dataReservas: any = [];
 
 
   constructor(public tasksService: TasksService) { }
@@ -100,7 +101,7 @@ export class PublicTasksComponent implements OnInit {
     .subscribe(
       res => {
         console.log(res),
-        this.dataObjetoEspecifico = Object.values(res);
+        this.dataObjetoEspecifico = Object.values(res.elemento);
         console.log(this.dataObjetoEspecifico);
       },
       err => console.log(err)
@@ -111,7 +112,9 @@ export class PublicTasksComponent implements OnInit {
     this.tasksService.getReservasDeUsuario(proveedor, coleccion, id)
     .subscribe(
       res => {
-        console.log(res)
+        console.log(res),
+        this.dataReservas = Object.values(res.elemento);
+        console.log(this.dataReservas);
       },
       err => console.log(err)
     )
