@@ -30,7 +30,7 @@ app.use(helmet());
 
 // Conexión a la BD
 const mongojs = require('mongojs');
-var db = mongojs('mongodb+srv://Francisco:Kenia12345@agencia.boyzs.mongodb.net/Coches?retryWrites=true&w=majority');
+var db = mongojs('mongodb+srv://Francisco:Kenia12345@agencia.boyzs.mongodb.net/Hoteles?retryWrites=true&w=majority');
 var id = mongojs.ObjectID;
 
 // Cors

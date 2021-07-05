@@ -8,7 +8,7 @@ import { InciarSesionComponent } from '../components/inciar-sesion/inciar-sesion
 })
 export class AuthService {
 
-  miIp = "localhost";
+  miIp = "192.168.0.9";
   miPuerto = "3101";
   private URL = `https://${this.miIp}:${this.miPuerto}/api`;
 
