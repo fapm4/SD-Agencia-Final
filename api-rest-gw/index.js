@@ -1,12 +1,12 @@
 'use strict'
 
 const port = process.env.PORT || 3101;
-const miIp = "localhost";
+const miIp = "172.20.40.236";
 
-const ipVuelos = "192.168.0.9";
-const ipHotel = "192.168.0.9";
+const ipVuelos = "172.20.40.237";
+const ipHotel = "172.20.40.237";
 const ipBanco = "192.168.0.9";
-const ipCoches = "192.168.0.9";
+const ipCoches = "172.20.40.237";
 
 const URL_WS_VUELOS = `https://${ipVuelos}:3000/api`;
 const URL_WS_HOTEL = `https://${ipHotel}:3002/api`;
