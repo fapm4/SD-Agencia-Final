@@ -1,0 +1,190 @@
+<ul class="list-group">
+    <li class="list-group-item">
+        <form (submit)="getProveedores()">
+            <button type="submit" class="btn btn-primary btn-block">
+                Mostrar proveedores
+            </button>
+            <nav class="nav">
+                <ul>
+                    <li *ngFor="let prov of dataProveedores">
+                        {{prov.proveedor}}
+                    </li>
+                </ul>
+            </nav>
+        </form>
+    </li>
+    <li class="list-group-item">
+        <form (submit)="getUsuarios()">
+            <button type="submit" class="btn btn-primary btn-block">
+                Mostrar usuarios
+            </button>
+            <nav class="nav">
+                <ul>
+                    <li *ngFor="let us of dataUsuarios">
+                        ID: {{us._id}}
+                        <br>
+                        Nombre: {{us.user}}
+                    </li>
+                </ul>
+            </nav>
+        </form>
+    </li>
+    <li class="list-group-item">
+        <input id="nombre" type="text" [(ngModel)]="proveedores.proveedor" placeholder="Nombre del proveedor">
+        <form (submit)="getTablasDeProveedor(proveedores.proveedor)">
+            <button type="submit" class="btn btn-primary btn-block">
+                Mostrar tablas de proveedor
+            </button>
+            <nav class="nav">
+                <ul>
+                    <li *ngFor="let data of dataTablesProveedor">
+                        {{data}}
+                    </li>
+                </ul>
+            </nav>
+        </form>
+    </li>
+    <li class="list-group-item">
+        <input id="nombre" type="text" [(ngModel)]="proveedores.proveedor" placeholder="Nombre del proveedor">
+        <input id="nombre" type="text" [(ngModel)]="coleccion.nombreColeccion" placeholder="Nombre de la coleccion">
+        <form (submit)="getDatosDeTabla(proveedores.proveedor, coleccion.nombreColeccion)">
+            <button type="submit" class="btn btn-primary btn-block">
+                Mostrar datos de una tabla del proveedor
+            </button>
+            <nav class="nav">
+                <ul>
+                    <li *ngFor="let data of dataTableProveedorEspecifica">
+                        
+                        ID del objeto: {{data._id}}
+                        <br>
+                        <ng-container *ngIf="esReserva(); else muestraDatos">
+                            <ul>
+                                <li>
+                                    ID del proveedor: {{data.idProveedor}}
+                                    <br>
+                                </li>
+                                <li>
+                                    ID del usuario: {{data.idUsuario}}
+                                </li>
+                            </ul>
+                        </ng-container>
+                        <ng-template #muestraDatos>
+                            <ng-container *ngIf="esCoche(); else determina">
+                                <ul>
+                                    <li>
+                                        Nombre: {{data.coche}}
+                                        <br>
+                                    </li>
+                                    <li>
+                                        Año: {{data.year}}
+                                        <br>
+                                    </li>
+                                    <li>
+                                        CV: {{data.CV}}
+                                        <br>
+                                    </li>
+                                    <li>
+                                        Plazas: {{data.plazas}}
+                                        <br>
+                                    </li>
+                                    <li>
+                                        Color: {{data.color}}
+                                        <br>
+                                    </li>
+                                    <li>
+                                        Terminados: {{data.terminados}}
+                                        <br>
+                                    </li>
+                                </ul>
+                            </ng-container>
+                            <ng-template #determina>
+                                <ng-container *ngIf="esVuelo(); else muestraHoteles">
+                                    <ul>
+                                        <li>
+                                            Origen: {{data.origen}}
+                                            <br>
+                                        </li>
+                                        <li>
+                                            Destino: {{data.destino}}
+                                            <br>
+                                        </li>
+                                        <li>
+                                            Fecha de ida: {{data.fecha1}
+                                            <br>
+                                        </li>
+                                        <li>
+                                            Fecha de vuelta: {{data.fecha2}}
+                                            <br>
+                                        </li>
+                                    </ul>
+                                </ng-container>
+                                <ng-template #muestraHoteles>
+                                    <ng-container>
+                                        <ul>
+                                            <li>
+                                                Nombre: {{data.nombre}}
+                                                <br>
+                                            </li>
+                                            <li>
+                                                Estrellas: {{data.estrellas}}
+                                                <br>
+                                            </li>
+                                            <li>
+                                                Plazas disponibles: {{data.plazasDisponibles}}
+                                                <br>
+                                            </li>
+                                            <li>
+                                                Ubicacion: {{data.ubicacion}}
+                                                <br>
+                                            </li>
+                                        </ul>
+                                    </ng-container>
+                                </ng-template>
+                            </ng-template>
+                        </ng-template>
+                        
+                    </li>
+                </ul>
+            </nav>
+        </form>
+    </li>
+    <li class="list-group-item">
+        <input id="nombre" type="text" [(ngModel)]="proveedores.proveedor" placeholder="Nombre del proveedor">
+        <input id="nombre" type="text" [(ngModel)]="coleccion.nombreColeccion" placeholder="Nombre del coleccion">
+        <input id="nombre" type="text" [(ngModel)]="id.id" placeholder="Identificador">
+        <form (submit)="getObjetoEspecifico(proveedores.proveedor, coleccion.nombreColeccion, id.id)">
+            <button type="submit" class="btn btn-primary btn-block">
+                Mostrar datos de objeto específico de la tabla de un proveedor
+            </button>
+            <nav class="nav">
+                <ul>
+                    <li *ngFor="let data of dataObjetoEspecifico">
+                        <ul>
+                            {{data}}
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </form>
+    </li>
+    <li class="list-group-item">
+        <input id="nombre" type="text" [(ngModel)]="proveedores.proveedor" placeholder="Nombre del proveedor">
+        <input id="nombre" type="text" [(ngModel)]="coleccion.nombreColeccion" placeholder="Nombre del coleccion">
+        <input id="nombre" type="text" [(ngModel)]="id.id" placeholder="Identificador">
+        <form (submit)="getReservasDeUsuario(proveedores.proveedor, coleccion.nombreColeccion, id.id)">
+            <button type="submit" class="btn btn-primary btn-block">
+                Mostrar reservas de un usuario o de un proveedor
+            </button>
+            <nav class="nav">
+                <ul>
+                    <li *ngFor="let data of dataReservas">
+                        <ul>
+                            {{data}}
+                            <br>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </form>
+    </li>
+</ul>

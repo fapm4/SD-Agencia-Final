@@ -1,7 +1,7 @@
 'use strict'
 
 const port = process.env.PORT || 3000;
-const miIp = "192.168.0.9";
+const miIp = "localhost";
 
 const express = require('express')
 const app = express()
@@ -30,7 +30,7 @@ app.use(helmet());
 
 // Conexión a la BD
 const mongojs = require('mongojs');
-var db = mongojs('mongodb+srv://Francisco:Kenia12345@agencia.boyzs.mongodb.net/Coches?retryWrites=true&w=majority');
+var db = mongojs('mongodb+srv://Francisco:Kenia12345@agencia.boyzs.mongodb.net/Vuelos?retryWrites=true&w=majority');
 var id = mongojs.ObjectID;
 
 // Cors

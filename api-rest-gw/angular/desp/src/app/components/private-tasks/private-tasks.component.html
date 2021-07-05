@@ -1,0 +1,43 @@
+<ul class="list-group">
+    <li class="list-group-item">
+        <input type="text" [(ngModel)]="proveedor.nombreProveedor" placeholder="Nombre del proveedor">
+        <input type="text" [(ngModel)]="coleccion.nombreColeccion" placeholder="Nombre de la coleccion">
+        <input type="text" [(ngModel)]="objeto.objeto" placeholder="Objeto JSON">
+        <form (submit)="postObjetoEnColeccion(proveedor.nombreProveedor, coleccion.nombreColeccion, objeto.objeto)">
+            <button type="submit" class="btn btn-primary btn-block">
+                Insertar un elemento en la colección del proveedor
+            </button>
+        </form>
+    </li>
+    <li class="list-group-item">
+        <input type="text" [(ngModel)]="proveedor.nombreProveedor" placeholder="Nombre del proveedor">
+        <input type="text" [(ngModel)]="coleccion.nombreColeccion" placeholder="Nombre de la coleccion">
+        <input type="text" [(ngModel)]="objeto.objeto" placeholder="Objeto JSON">
+        <input type="text" [(ngModel)]="idProveedor.idProveedor" placeholder="ID del proveedor">
+        <input type="text" [(ngModel)]="idReserva.idReserva" placeholder="ID de la reserva">
+        <form (submit)="putObjetoEnColeccion(proveedor.nombreProveedor, coleccion.nombreColeccion, objeto.objeto, idProveedor.idProveedor, idReserva.idReserva)">
+            <button type="submit" class="btn btn-primary btn-block">
+                Modificar un elemento en la reserva del proveedor
+            </button>
+        </form>
+    </li>
+    <li class="list-group-item">
+        <input type="text" [(ngModel)]="proveedor.nombreProveedor" placeholder="Nombre del proveedor">
+        <input type="text" [(ngModel)]="coleccion.nombreColeccion" placeholder="Nombre de la coleccion">
+        <input type="text" [(ngModel)]="idProveedor.idProveedor" placeholder="ID del proveedor">
+        <input type="text" [(ngModel)]="idReserva.idReserva" placeholder="ID de la reserva(JSON)">
+        <form (submit)="deleteObjetoEnColeccion(proveedor.nombreProveedor, coleccion.nombreColeccion, idProveedor.idProveedor, idReserva.idReserva)">
+            <button type="submit" class="btn btn-primary btn-block">
+                Borrar un elemento en la reserva del proveedor
+            </button>
+        </form>
+    </li>
+    <li class="list-group-item">
+        <input type="text" [(ngModel)]="usuario.usuario" placeholder="ID del usuario">
+        <form (submit)="deleteUser(usuario.usuario)">
+            <button type="submit" class="btn btn-primary btn-block">
+                Borrar usuario
+            </button>
+        </form>
+    </li>
+</ul>
