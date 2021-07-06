@@ -1,7 +1,7 @@
 'use strict'
 
 const port = process.env.PORT || 3000;
-const miIp = "localhost";
+const miIp = "192.168.0.9";
 
 const express = require('express')
 const app = express()

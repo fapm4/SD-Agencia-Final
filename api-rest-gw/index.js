@@ -1,12 +1,12 @@
 'use strict'
 
 const port = process.env.PORT || 3101;
-const miIp = "172.20.40.236";
+const miIp = "192.168.0.9";
 
-const ipVuelos = "172.20.40.237";
-const ipHotel = "172.20.40.237";
+const ipVuelos = "192.168.0.9";
+const ipHotel = "192.168.0.9";
 const ipBanco = "192.168.0.9";
-const ipCoches = "172.20.40.237";
+const ipCoches = "192.168.0.9";
 
 const URL_WS_VUELOS = `https://${ipVuelos}:3000/api`;
 const URL_WS_HOTEL = `https://${ipHotel}:3002/api`;
@@ -619,10 +619,9 @@ app.post('/api/:proveedores/:colecciones/:id/:idProv', authFRONT,(req, res, next
 app.post('/api/:proveedores/:colecciones/:id', auth, (req, res, next) => {
     const nuevoElemento = req.body;
     const queColeccion = req.params.colecciones;
-    const pasarValorID = false;
     var queURL = isProveedor(req, res, next, pasarValorID);
     const queToken = req.params.token;
-    console.log(queURL, idProveedor, queColeccion);
+
     fetch(queURL, {
         method: 'POST',
         body: JSON.stringify(nuevoElemento),
