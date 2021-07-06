@@ -313,17 +313,24 @@ app.delete(('/api/:coleccion/:id'), auth, (req, res, next) => {
 		});
 	}
 	else{
-		db.collection(queColeccion).remove(
-			{_id: id(idReserva)},
-			(err, resultado) => {
-				if(err) return next(err);
-				else{
-					res.json({
-						resultado
-					})
+		if(nuevoElemento != null){
+			db.collection(queColeccion).remove(
+				{_id: id(idReserva)},
+				(err, resultado) => {
+					if(err) return next(err);
+					else{
+						res.json({
+							resultado
+						})
+					}
 				}
-			}
-		)
+			)
+		}
+		else{
+			res.json({
+				mensaje: "Cuerpo invalido"
+			})
+		}
 	}
 });
 

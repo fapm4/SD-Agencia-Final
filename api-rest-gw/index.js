@@ -546,8 +546,6 @@ app.post('/api/registrar', (req, res, next) => {
 app.post('/api/:proveedores/:colecciones/:id/:idProv', authFRONT,(req, res, next) => {
     const queColeccion = req.params.colecciones;
     const queToken = req.params.token;
-    const objetoBorrar = req.body.objeto;
-    const idObjeto = objetoBorrar._id;
     var queURL = isProveedor(req, res, next);
 
     var newURL;
@@ -635,42 +633,47 @@ app.post('/api/:proveedores/:colecciones/:id/:idProv', authFRONT,(req, res, next
                     });
                 })
                 .catch(err => console.log(err));
-                //Borrar el elemento del proveedor
-                switch(req.params.proveedores){
-                    case "vuelo":
-                        newURL = `${URL_WS_VUELOS}` + `/vuelos`;
-                        break;
-            
-                    case "coche":
-                        newURL = `${URL_WS_COCHES}` + `/coches`;
-            
-                        break;
-            
-                    case "hotel":
-                        newURL = `${URL_WS_HOTEL}` + `/hoteles`;
+                if(req.body.objeto != null){
+                    const objetoBorrar = req.body.objeto;
+                    const idObjeto = objetoBorrar._id;
+                    //Borrar el elemento del proveedor
+                    switch(req.params.proveedores){
+                        case "vuelo":
+                            newURL = `${URL_WS_VUELOS}` + `/vuelos`;
+                            break;
+                
+                        case "coche":
+                            newURL = `${URL_WS_COCHES}` + `/coches`;
+                
+                            break;
+                
+                        case "hotel":
+                            newURL = `${URL_WS_HOTEL}` + `/hoteles`;
 
-                        break;
-            
-                    default:
-                        res.json(`End-Point invalido: ${req.params.proveedores} no existe`);
-                }
-                fetch(newURL, {
-                    method: 'DELETE',
-                    body: JSON.stringify(objetoBorrar),
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${queToken}`
+                            break;
+                
+                        default:
+                            res.json(`End-Point invalido: ${req.params.proveedores} no existe`);
                     }
-                })
-                .then(res => res.json())
-                .then(json => {
-                    res.json({
-                        resultado: 'OK',
-                        colecciones: queColeccion,
-                        elemento: json.elemento
-                    });
-                })
-                .catch(err => console.log(err));
+                    fetch(newURL, {
+                        method: 'DELETE',
+                        body: JSON.stringify(objetoBorrar),
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${queToken}`
+                        }
+                    })
+                    .then(res => res.json())
+                    .then(json => {
+                        res.json({
+                            resultado: 'OK',
+                            colecciones: queColeccion,
+                            elemento: json.elemento
+                        });
+                    })
+                    .catch(err => console.log(err));
+                    }
+                
             })
             .catch(err => console.log(err));
         }
