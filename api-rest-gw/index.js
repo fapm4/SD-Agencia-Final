@@ -3,15 +3,17 @@
 const port = process.env.PORT || 3101;
 const miIp = "192.168.0.9";
 
-const ipVuelos = "192.168.0.9";
-const ipHotel = "192.168.0.9";
-const ipBanco = "192.168.0.9";
-const ipCoches = "192.168.0.9";
+// Variables de entorno para que sea más fácil de modificar
+const ipVuelos = "192.168.0.9"; const puertoVuelos = "3000";
+const ipHotel = "192.168.0.9"; const puertoHoteles = "3002";
+const ipCoches = "192.168.0.9"; const puertoCoches = "3001"
 
-const URL_WS_VUELOS = `https://${ipVuelos}:3000/api`;
-const URL_WS_HOTEL = `https://${ipHotel}:3002/api`;
-const URL_WS_BANCO = `https://${ipBanco}:3003/api`;
-const URL_WS_COCHES = `https://${ipCoches}:3001/api`;
+const URL_WS_VUELOS = `https://${ipVuelos}:${puertoVuelos}/api`;
+const URL_WS_HOTEL = `https://${ipHotel}:${puertoHoteles}/api`;
+const URL_WS_COCHES = `https://${ipCoches}:${puertoCoches}/api`;
+
+//////////////////////////////////////////////////////////////////
+// Definición de MIDDLEWARES
 
 // Express
 const express = require('express')
@@ -85,8 +87,11 @@ const TokenService = require('./services/token.service');
 const PassService = require('./services/pass.service');
 const { response } = require('express');
 
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-///////////////////////////////////////////////////////
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";                  
+//////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////
+// Funciones auxiliares
 
 // Actualiza la coleccion
 app.param("colecciones", (req, res, next, colecciones) => {
@@ -95,9 +100,10 @@ app.param("colecciones", (req, res, next, colecciones) => {
 	return next();
 });
 
-
+// Middleware de autorizacion
+// Este middleware es similar al que se encuentra debajo. La principal diferencia es que al usuar el Front-end, para autenticar
+// y autorizar a un usuario con el loggin o el registro, se usa el nombre del usuario y el ID que genera MongoDB
 function authFRONT(req, res, next){
-
     if(!req.params.id){
         res.status(401).json({
             result: 'KO',
@@ -145,7 +151,7 @@ function authFRONT(req, res, next){
     const miToken = req.headers.authorization.split(" ")[1];
 	console.log(miToken);
 	if(miToken === "MITOKEN123456789"){
-        req.params.token = miToken; // Creamos una nueva propiedad para propagar el token
+        req.params.token = miToken;
 		return next();
 	}
 	
@@ -194,7 +200,6 @@ function auth(req, res, next){
     }
 
 	if(!req.headers.authorization){
-		// Responder sin permiso
 		res.status(401).json({
 			result: 'KO',
 			mensaje: "No se ha enviado el token de tipo Bearer en la cabecera Authorization"
@@ -206,7 +211,7 @@ function auth(req, res, next){
     const miToken = req.headers.authorization.split(" ")[1];
 	console.log(miToken);
 	if(miToken === "MITOKEN123456789"){
-        req.params.token = miToken; // Creamos una nueva propiedad para propagar el token
+        req.params.token = miToken;
 		return next();
 	}
 	
@@ -218,7 +223,8 @@ function auth(req, res, next){
 }
 
 
-
+//////////////////////////////////////////////////////////////////
+// Función para obtener el proveedor a través de la URL
 function isProveedor(req, res, next, opcion){
     const queProveedor = req.params.proveedores;
     const queColeccion = req.params.colecciones;
@@ -264,6 +270,8 @@ function isProveedor(req, res, next, opcion){
     return queUrl;
 }
 
+//////////////////////////////////////////////////////////////////
+// Función encargada de crear el hash para la contraseña del usuario y crear un token con su contraseña
 function createHashSalt(req ,res, next){
     const pass = req.body.password;
 
@@ -286,6 +294,8 @@ function createHashSalt(req ,res, next){
     .catch(err => console.log(err));
 }
 
+//////////////////////////////////////////////////////////////////
+// Función para comparar la contreña del usuario con el hash que le pasamos
 function verifyPassword(hash, req, res, next){
     const pass = req.body.password;
     const queId = req.params.id;
@@ -323,6 +333,11 @@ function verifyPassword(hash, req, res, next){
     .catch(error => console.log(error));
 }
 
+//////////////////////////////////////////////////////////////////
+// Función para comprobar la contraseña del usuario con el hash que le pasamos.
+// Igual que pasaba con la función auth, hay dos métodos muy parecidos y que se diferencian
+// en lo mismo. Al usar nuestro front-end, para inciar sesión tenemos que usar un POST
+// para poder mandar inforamción adicional del usuario. Esto esta mejor explicado en la memoria. 
 function verifyPasswordPOST(hash, req, res, next){
     const pass = req.body.password;
     const queId = req.params.id;
@@ -359,8 +374,14 @@ function verifyPasswordPOST(hash, req, res, next){
     })
     .catch(error => console.log(error));
 }
+//////////////////////////////////////////////////////////////////
 
-/////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+// Mis llamadas al API
+
+//////////////////////////////////////////////////////////////////
+// Identificamos un usuario en nuestra base de datos con la particularidad que cuando
+// usamos esta llamada estamos usando postman o el navegador web
 app.get('/api/identificar/:id', (req, res, next) => {
     const queID = req.params.id;
     var hash = "";
@@ -372,10 +393,13 @@ app.get('/api/identificar/:id', (req, res, next) => {
   
         console.log(elemento);
         hash = elemento.password;
-        verifyPasswordPOST(hash, req, res, next);
+        verifyPassword(hash, req, res, next);
     });
  });
 
+//////////////////////////////////////////////////////////////////
+// Identificamos un usuario en nuestra base de datos con la particularidad que cuando
+// usamos esta llamada estamos usando el front-end
  app.post('/api/identificar/:id', (req, res, next) => {
     const queID = req.params.id;
     var hash = ``;
@@ -391,6 +415,8 @@ app.get('/api/identificar/:id', (req, res, next) => {
     });
  });
 
+//////////////////////////////////////////////////////////////////
+// Buscamos las reservas del usuario con id = req.params.id
 app.get('/api/reserva/:id', (req, res, next) => {
     const queID = req.params.id;
   
@@ -402,7 +428,8 @@ app.get('/api/reserva/:id', (req, res, next) => {
     });
  });
 
-
+//////////////////////////////////////////////////////////////////
+// Obtenemos los proveedores de nuestro agencia de viajes
 app.get('/api', (req, res, next) =>{
     res.json({
         result: "OK",
@@ -420,6 +447,8 @@ app.get('/api', (req, res, next) =>{
     });
 });
 
+//////////////////////////////////////////////////////////////////
+// Obtenemos todos los usuarios de la BD
 app.get('/api/usuarios', (req, res, next) => {
     var collection = db.collection("agencias");
 
@@ -435,7 +464,9 @@ app.get('/api/usuarios', (req, res, next) => {
 	});
 });
 
- app.get('/api/:proveedores', (req ,res, next) => {
+//////////////////////////////////////////////////////////////////
+// Obtenemos las colecciones del proveedor = req.params.proveedores
+app.get('/api/:proveedores', (req ,res, next) => {
     const queProveedor = req.params.proveedores;
     
     const queURL = isProveedor(req, res, next);
@@ -451,6 +482,8 @@ app.get('/api/usuarios', (req, res, next) => {
     .catch(err => console.log(err));  
 });
 
+//////////////////////////////////////////////////////////////////
+// Obtenemos los datos de la coleccion = req.params.colecciones del proveedor = req.params.proveedores
 app.get('/api/:proveedores/:colecciones', (req, res, next) => {
     const queColeccion = req.params.colecciones;
     var queURL = isProveedor(req, res, next);
@@ -467,6 +500,8 @@ app.get('/api/:proveedores/:colecciones', (req, res, next) => {
     .catch(err => console.log(err));
 });
 
+//////////////////////////////////////////////////////////////////
+// Obtenemos la información especifica de un objeto con id = req.params.id de la coleccion = req.params.colecciones del proveedor = req.params.proveedores
 app.get('/api/:proveedores/:colecciones/:id', (req, res, next) => {
     const queColeccion = req.params.colecciones;
     var queURL = isProveedor(req ,res, next);
@@ -487,8 +522,9 @@ app.get('/api/:proveedores/:colecciones/:id', (req, res, next) => {
     .catch(err => console.log(err));
 });
 
-
-/////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+// Registramos un nuevo usuario en nuestra base datos. Antes de crearlo,
+// se comprueba que este no exista ya buscando en la coleccion agencias el nombre del usuario
 app.post('/api/registrar', (req, res, next) => { 
     var collection = db.collection("agencias");
     const user = req.body.user;
@@ -505,6 +541,8 @@ app.post('/api/registrar', (req, res, next) => {
     });
  });
 
+//////////////////////////////////////////////////////////////////
+// Creamos una nueva reserva en la coleccion reservas del proveedor y en la coleccion reservas de Agencia
 app.post('/api/:proveedores/:colecciones/:id/:idProv', authFRONT,(req, res, next) => {
     const queColeccion = req.params.colecciones;
     const queToken = req.params.token;
@@ -611,7 +649,16 @@ app.post('/api/:proveedores/:colecciones/:id/:idProv', authFRONT,(req, res, next
        
     }
     else{
-        res.json("End-point inválido");
+        if(queColeccion == "coches" || queColeccion == "vuelos" || queColeccion == "hoteles"){
+            res.status(401).json({
+                result: 'KO',
+                mensaje:`Lo siento, este método es unicamente para crear reservas, si deseas crear un nuevo objeto en la coleccion ${queColeccion}
+                por favor utilice el método con la siguiente URI: '/api/:proveedores/:colecciones/:id`
+            })
+        }
+        else{
+            res.json("End-point inválido");
+        }
     }
   
  });
@@ -619,6 +666,7 @@ app.post('/api/:proveedores/:colecciones/:id/:idProv', authFRONT,(req, res, next
 app.post('/api/:proveedores/:colecciones/:id', auth, (req, res, next) => {
     const nuevoElemento = req.body;
     const queColeccion = req.params.colecciones;
+    const pasarValorID = false;
     var queURL = isProveedor(req, res, next, pasarValorID);
     const queToken = req.params.token;
 
