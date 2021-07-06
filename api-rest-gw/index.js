@@ -546,6 +546,7 @@ app.post('/api/registrar', (req, res, next) => {
 app.post('/api/:proveedores/:colecciones/:id/:idProv', authFRONT,(req, res, next) => {
     const queColeccion = req.params.colecciones;
     const queToken = req.params.token;
+    const idObjeto = req.body.idObjeto;
     var queURL = isProveedor(req, res, next);
 
     var newURL;
@@ -596,14 +597,11 @@ app.post('/api/:proveedores/:colecciones/:id/:idProv', authFRONT,(req, res, next
             }
         
             else{
-                console.log(elemento);
          
                 fetch(newURL)
                 .then(res => res.json())
                 .then(json => {
-                
-                console.log(json);
-                
+                                
                 const nuevoElemento = {
                     idProveedor: req.body.idProveedor,
                     idUsuario: req.body.idUsuario,
@@ -627,17 +625,53 @@ app.post('/api/:proveedores/:colecciones/:id/:idProv', authFRONT,(req, res, next
                             colecciones: queColeccion,
                             elemento: json.elemento
                         });
-                    console.log(json.elemento._id);
                     
                     var collection = db.collection("reservas");
                     collection.save({_id: id(json.elemento._id), idUsuario: req.params.id, proveedor: req.params.proveedores, precio: json.elemento.precio}, (err, elementoGuardado) => {
                         if (err) return next(err);
                 
-                        console.log(elementoGuardado);
                         res.status(201).json({
                             result: 'OK',
                             elemento: elementoGuardado
                         });
+                    });
+                })
+                .catch(err => console.log(err));
+                //Borrar el elemento del proveedor
+                switch(req.params.proveedores){
+                    case "vuelo":
+                        newURL = `${URL_WS_VUELOS}` + `/vuelos`;
+                        break;
+            
+                    case "coche":
+                        newURL = `${URL_WS_COCHES}` + `/coches`;
+            
+                        break;
+            
+                    case "hotel":
+                        newURL = `${URL_WS_HOTEL}` + `/hoteles`;
+
+                        break;
+            
+                    default:
+                        res.json(`End-Point invalido: ${req.params.proveedores} no existe`);
+                }
+                newURL += `/${idObjeto}`;
+                console.log(newURL);
+                fetch(newURL, {
+                    method: 'DELETE',
+                    body: JSON.stringify(nuevoElemento), 
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${queToken}`
+                    }
+                })
+                .then(res => res.json())
+                .then(json => {
+                    res.json({
+                        resultado: 'OK',
+                        colecciones: queColeccion,
+                        elemento: json.elemento
                     });
                 })
                 .catch(err => console.log(err));

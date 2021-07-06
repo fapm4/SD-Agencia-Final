@@ -35,6 +35,7 @@ var id = mongojs.ObjectID;
 
 // Cors
 const cors = require('cors');
+const { response } = require('express');
 
 var allowCrossTokenHeader = (req, res, next) => {
 	res.header("Access-Control-Allow-Headers", "*");
@@ -156,14 +157,14 @@ app.get('/api/:colecciones/:id', (req, res, next) => {
 app.post(('/api/:coleccion'), auth, (req, res, next) => {
 	const nuevoElemento = req.body;
 	const queColeccion = req.params.coleccion;
+	console.log(queColeccion);
 
 	if(queColeccion == "reservas"){
-		console.log(nuevoElemento.idProveedor);
 		const queId = JSON.stringify(nuevoElemento.idProveedor);
 		
-		console.log(queId);
-		db.collection(queColeccion).findOne({"idProveedor": nuevoElemento.idProveedor}, (err, elemento) => {
-			if(elemento != null && elemento.idProveedor == nuevoElemento.idProveedor){
+		db.collection(queColeccion).findOne({"idProveedor": req.body.idProveedor}, (err, elemento) => {
+			if(elemento != null && elemento.idProveedor == req.body.idProveedor){
+				console.log("encontrado");
 				res.json({
 					result: 'KO',
 					colecciones: queColeccion,
@@ -174,7 +175,6 @@ app.post(('/api/:coleccion'), auth, (req, res, next) => {
 				db.collection(queColeccion).save( nuevoElemento, (err, elementoGuardado) => {
 					if(err) return next(err);
 			
-					console.log(elementoGuardado);
 					res.status(201).send(
 						{
 							coleccion: queColeccion,
@@ -189,7 +189,6 @@ app.post(('/api/:coleccion'), auth, (req, res, next) => {
 		db.collection(queColeccion).save( nuevoElemento, (err, elementoGuardado) => {
 			if(err) return next(err);
 	
-			console.log(elementoGuardado);
 			res.status(201).send(
 				{
 					coleccion: queColeccion,
@@ -286,30 +285,45 @@ app.delete(('/api/:coleccion/:id'), auth, (req, res, next) => {
 	const queColeccion = req.params.coleccion;
 	const nuevoElemento = req.body;
 
-	db.collection(queColeccion).find({"idProveedor": queId}, (err, elemento) => {
-		if(elemento != null){
-			console.log(elemento);
-			db.collection(queColeccion).remove(
-				{_id: id(idReserva)},
-				(err, resultado) => {
-					if(err) return next(err)
-
-					console.log(resultado);
-
+	if(queColeccion == "reservas"){
+		db.collection(queColeccion).find({"idProveedor": queId}, (err, elemento) => {
+			if(elemento != null){
+				console.log(elemento);
+				db.collection(queColeccion).remove(
+					{_id: id(idReserva)},
+					(err, resultado) => {
+						if(err) return next(err)
+	
+						console.log(resultado);
+	
+						res.json({
+							result: 'OK',
+							coleccion: queColeccion,
+							resultado: resultado
+						});
+					}
+				);
+			}
+			else{
+				res.json({
+					mensaje: "ID de proveedor erróneo"
+				});
+			}
+		});
+	}
+	else{
+		db.collection(queColeccion).remove(
+			{_id: id(idReserva)},
+			(err, resultado) => {
+				if(err) return next(err);
+				else{
 					res.json({
-						result: 'OK',
-						coleccion: queColeccion,
-						resultado: resultado
-					});
+						resultado
+					})
 				}
-			);
-		}
-		else{
-			res.json({
-				mensaje: "ID de proveedor erróneo"
-			});
-		}
-	});
+			}
+		)
+	}
 });
 
 https.createServer(OPTIONS_HTTPS, app).listen(port, () => {
