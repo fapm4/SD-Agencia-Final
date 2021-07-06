@@ -284,6 +284,7 @@ app.delete(('/api/:coleccion/:id'), auth, (req, res, next) => {
 	const idReserva = req.body.idReserva;
 	const queColeccion = req.params.coleccion;
 	const nuevoElemento = req.body;
+	console.log(nuevoElemento);
 
 	if(queColeccion == "reservas"){
 		db.collection(queColeccion).find({"idProveedor": queId}, (err, elemento) => {

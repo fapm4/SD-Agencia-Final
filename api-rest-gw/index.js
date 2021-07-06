@@ -513,7 +513,7 @@ app.get('/api/:proveedores/:colecciones/:id', (req, res, next) => {
     fetch(queURL)
     .then(res => res.json())
     .then(json => {
-        res.json( {
+        res.json({
             result: json.result,
             colecciones: queColeccion,
             elemento: json.elemento
@@ -546,7 +546,8 @@ app.post('/api/registrar', (req, res, next) => {
 app.post('/api/:proveedores/:colecciones/:id/:idProv', authFRONT,(req, res, next) => {
     const queColeccion = req.params.colecciones;
     const queToken = req.params.token;
-    const idObjeto = req.body.idObjeto;
+    const objetoBorrar = req.body.objeto;
+    const idObjeto = objetoBorrar._id;
     var queURL = isProveedor(req, res, next);
 
     var newURL;
@@ -630,10 +631,7 @@ app.post('/api/:proveedores/:colecciones/:id/:idProv', authFRONT,(req, res, next
                     collection.save({_id: id(json.elemento._id), idUsuario: req.params.id, proveedor: req.params.proveedores, precio: json.elemento.precio}, (err, elementoGuardado) => {
                         if (err) return next(err);
                 
-                        res.status(201).json({
-                            result: 'OK',
-                            elemento: elementoGuardado
-                        });
+                        
                     });
                 })
                 .catch(err => console.log(err));
@@ -656,11 +654,9 @@ app.post('/api/:proveedores/:colecciones/:id/:idProv', authFRONT,(req, res, next
                     default:
                         res.json(`End-Point invalido: ${req.params.proveedores} no existe`);
                 }
-                newURL += `/${idObjeto}`;
-                console.log(newURL);
                 fetch(newURL, {
                     method: 'DELETE',
-                    body: JSON.stringify(nuevoElemento), 
+                    body: JSON.stringify(objetoBorrar),
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${queToken}`
