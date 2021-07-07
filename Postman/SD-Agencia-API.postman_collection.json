@@ -1,0 +1,225 @@
+{
+	"info": {
+		"_postman_id": "e7650ea9-5475-499f-94b4-103b52edcb1d",
+		"name": "SD-Agencia-API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/api",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://172.20.40.245:3100/api",
+					"protocol": "https",
+					"host": [
+						"172",
+						"20",
+						"40",
+						"245"
+					],
+					"port": "3100",
+					"path": [
+						"api"
+					]
+				},
+				"description": "Recupera el nombre de las colecciones de la base de datos"
+			},
+			"response": []
+		},
+		{
+			"name": "/api/{coleccion}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://192.168.0.9:3001/api/reservas",
+					"protocol": "https",
+					"host": [
+						"192",
+						"168",
+						"0",
+						"9"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"reservas"
+					]
+				},
+				"description": "Recupera todos los elementos de la colección {coleccion}"
+			},
+			"response": []
+		},
+		{
+			"name": "/api/{coleccion}/{id}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:3000/api/reservas/60d49a03ce46211488085975",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"reservas",
+						"60d49a03ce46211488085975"
+					]
+				},
+				"description": "Recupera el elemento con id = {id} de la colección {coleccion}"
+			},
+			"response": []
+		},
+		{
+			"name": "/api/reservas/{id}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://192.168.0.9:3001/api/reservas/60e0458ff59472102702ac62",
+					"protocol": "https",
+					"host": [
+						"192",
+						"168",
+						"0",
+						"9"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"reservas",
+						"60e0458ff59472102702ac62"
+					]
+				},
+				"description": "Obtiene las reservas tanto para el usuario con id = {id} como para el proveedor con idProveedor = {id}"
+			},
+			"response": []
+		},
+		{
+			"name": "/api/{coleccion}",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "MITOKEN123456789",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"idProveedor\": \"5\",\n    \"idHotel\": \"60dc6f95144f09064f283394\",\n    \"número de habitaciones\": \"1\",\n    \"tipo de habitación\": \"suit imperial\",\n    \"coste por noche\": \"50€\",\n    \"fecha-inicio\": \"20-06-2021\",\n    \"fecha-fin\": \"26-06-2021 (hasta las 9:00 am)\",\n    \"coste total de la estancia\": \"50 * 5 = 250€\",\n    \"modo de pago\": \"tarjeta\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://192.168.0.9:3001/api/reservas",
+					"protocol": "https",
+					"host": [
+						"192",
+						"168",
+						"0",
+						"9"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"reservas"
+					]
+				},
+				"description": "Crea un elemento en la colección {coleccion}"
+			},
+			"response": []
+		},
+		{
+			"name": "/api/{coleccion}/{id}",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "MITOKEN123456789",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"idProveedor\": \"1\",\n    \"idCoche\": \"60dc5da61951880a595c8dd6\",\n    \"coche a reservar\": \"Audi Q7 del año 2019\",\n    \"fecha-inicio\": \"17-05-2021\",\n    \"fecha-fin\": \"20-05-2021\",\n    \"seguro incluido\": \"sí\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://192.168.0.9:3001/api/reservas/60dc5da61951880a595c8dd6",
+					"protocol": "https",
+					"host": [
+						"192",
+						"168",
+						"0",
+						"9"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"reservas",
+						"60dc5da61951880a595c8dd6"
+					]
+				},
+				"description": "Modifica el elemento con id = {id} de la colección {coleccion}"
+			},
+			"response": []
+		},
+		{
+			"name": "/api/{coleccion}/{id}",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "MITOKEN123456789",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://192.168.0.9:3001/api/reservas/60e4bf2dceb2bd1c6efffed3",
+					"protocol": "https",
+					"host": [
+						"192",
+						"168",
+						"0",
+						"9"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"reservas",
+						"60e4bf2dceb2bd1c6efffed3"
+					]
+				},
+				"description": "Elimina el elemento con id = {id} de la colección {coleccion}"
+			},
+			"response": []
+		}
+	]
+}

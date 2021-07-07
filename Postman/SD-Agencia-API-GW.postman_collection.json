@@ -1,0 +1,495 @@
+{
+	"info": {
+		"_postman_id": "0f4d8a60-a248-4d1c-a69f-2d3f1a41cc40",
+		"name": "SD-Agencia-API-GW",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/api",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://192.168.0.9:3101/api",
+					"protocol": "https",
+					"host": [
+						"192",
+						"168",
+						"0",
+						"9"
+					],
+					"port": "3101",
+					"path": [
+						"api"
+					]
+				},
+				"description": "Obtengo los tres tipos de proveedores de mi agencia"
+			},
+			"response": []
+		},
+		{
+			"name": "/api/{proveedor}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://192.168.0.9:3101/api/coche",
+					"protocol": "https",
+					"host": [
+						"192",
+						"168",
+						"0",
+						"9"
+					],
+					"port": "3101",
+					"path": [
+						"api",
+						"coche"
+					]
+				},
+				"description": "Obtenemos todos las colecciones de la tabla del proveedor {proveedor}"
+			},
+			"response": []
+		},
+		{
+			"name": "/api/{proveedor}/{coleccion}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://192.168.0.9:3101/api/coche/reservas",
+					"protocol": "https",
+					"host": [
+						"192",
+						"168",
+						"0",
+						"9"
+					],
+					"port": "3101",
+					"path": [
+						"api",
+						"coche",
+						"reservas"
+					]
+				},
+				"description": "Obtenemos todos los elementos del la colección {coleccion} del proveedor de {proveedor}"
+			},
+			"response": []
+		},
+		{
+			"name": "/api/{proveedor}/{coleccion}/{id}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://192.168.0.9:3100/api/coche/coches/60dc5b9476a2130a05fb4925",
+					"protocol": "https",
+					"host": [
+						"192",
+						"168",
+						"0",
+						"9"
+					],
+					"port": "3100",
+					"path": [
+						"api",
+						"coche",
+						"coches",
+						"60dc5b9476a2130a05fb4925"
+					]
+				},
+				"description": "Obtenemos el elemento con id = {id} de la colección {coleccion} del proveedor {proveedor}"
+			},
+			"response": []
+		},
+		{
+			"name": "/api/identificar/{id}",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"user\": \"user1\",\r\n    \"password\": \"admin\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://192.168.0.9:3101/api/identificar/60e09c3de27ce50ababb2e9c",
+					"protocol": "https",
+					"host": [
+						"192",
+						"168",
+						"0",
+						"9"
+					],
+					"port": "3101",
+					"path": [
+						"api",
+						"identificar",
+						"60e09c3de27ce50ababb2e9c"
+					]
+				},
+				"description": "Identifica al usuario con id = {id}. Hay que incluir el campo password y user en el body para realizar la identificación completa del usuario"
+			},
+			"response": []
+		},
+		{
+			"name": "/api/usuarios",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://192.168.0.9:3101/api/usuarios",
+					"protocol": "https",
+					"host": [
+						"192",
+						"168",
+						"0",
+						"9"
+					],
+					"port": "3101",
+					"path": [
+						"api",
+						"usuarios"
+					]
+				},
+				"description": "Obtiene los usuarios regitrados en la BD"
+			},
+			"response": []
+		},
+		{
+			"name": "/api/{proveedor}/{coleccion}/{idUsuario}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://192.168.0.9:3101/api/coche/reservas/60e0458ff59472102702ac62",
+					"protocol": "https",
+					"host": [
+						"192",
+						"168",
+						"0",
+						"9"
+					],
+					"port": "3101",
+					"path": [
+						"api",
+						"coche",
+						"reservas",
+						"60e0458ff59472102702ac62"
+					]
+				},
+				"description": "Obtiene todas las reservas del usuario = {idUsuario} de la tabla {coleccion} del proveedor {proveedor}"
+			},
+			"response": []
+		},
+		{
+			"name": "/api/registrar",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"user\": \"fapm4\",\r\n    \"password\": \"hola12345\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://192.168.0.9:3100/api/registrar",
+					"protocol": "https",
+					"host": [
+						"192",
+						"168",
+						"0",
+						"9"
+					],
+					"port": "3100",
+					"path": [
+						"api",
+						"registrar"
+					]
+				},
+				"description": "Registramos un nuevo usuario en nuestra base de datos"
+			},
+			"response": []
+		},
+		{
+			"name": "/api/{proveedor}/{coleccion}/{userId}",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "MITOKEN123456789",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"hola\": \"hola\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://192.168.0.9:3100/api/coche/coches/60dd8c3173503a097c461fab",
+					"protocol": "https",
+					"host": [
+						"192",
+						"168",
+						"0",
+						"9"
+					],
+					"port": "3100",
+					"path": [
+						"api",
+						"coche",
+						"coches",
+						"60dd8c3173503a097c461fab"
+					],
+					"query": [
+						{
+							"key": "token",
+							"value": "MITOKEN123456789",
+							"disabled": true
+						}
+					]
+				},
+				"description": "El usuario con id = {userId} crea un objeto en la tabla {coleccion} del {proveedor}"
+			},
+			"response": []
+		},
+		{
+			"name": "/api/{proveedor}/{coleccion}/{idUsuario}/{idProveedor}",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "MITOKEN123456789",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"idProveedor\": \"10\",\r\n    \"idUsuario\": \"user1\",\r\n    \"precio\": \"260\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://192.168.0.9:3101/api/coche/reservas/user1/10",
+					"protocol": "https",
+					"host": [
+						"192",
+						"168",
+						"0",
+						"9"
+					],
+					"port": "3101",
+					"path": [
+						"api",
+						"coche",
+						"reservas",
+						"user1",
+						"10"
+					]
+				},
+				"description": "El usuario con id = {idUsuario} realiza una reserva en la tabla {coleccion} del proveedor {proveedor}. El {idProveedor} funciona como clave única para no repetir reservas."
+			},
+			"response": []
+		},
+		{
+			"name": "/api/identificar/{nombreUser}",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"user\": \"user1\",\r\n    \"password\": \"admin\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://192.168.0.9:3101/api/identificar/user1",
+					"protocol": "https",
+					"host": [
+						"192",
+						"168",
+						"0",
+						"9"
+					],
+					"port": "3101",
+					"path": [
+						"api",
+						"identificar",
+						"user1"
+					]
+				},
+				"description": "Permite identicar al usuario {nombreUser}"
+			},
+			"response": []
+		},
+		{
+			"name": "/api/{proveedor}/{coleccion}/{idUsuario}/{idProveedor}",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "MITOKEN123456789",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"idReserva\": {\r\n        \"60e09c92cfef840750b685f9\"}\r\n        ,\r\n    \"reserva\": \"reserva modificada\",\r\n    \"precio\": \"300€\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://192.168.0.9:3101/api/hotel/reservas/user1/70",
+					"protocol": "https",
+					"host": [
+						"192",
+						"168",
+						"0",
+						"9"
+					],
+					"port": "3101",
+					"path": [
+						"api",
+						"hotel",
+						"reservas",
+						"user1",
+						"70"
+					]
+				},
+				"description": "Actualiza el objeto con idProveedor = {idProveedor} de la tabla {coleccion} de {proveedor}"
+			},
+			"response": []
+		},
+		{
+			"name": "/api/{proveedor}/{coleccion}/{idUsuario}/{idProv}",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "MITOKEN123456789",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"idReserva\": \"60dc5da61951880a595c8dd6\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://192.168.0.9:3100/api/coche/reservas/60dd8c3173503a097c461fab/7",
+					"protocol": "https",
+					"host": [
+						"192",
+						"168",
+						"0",
+						"9"
+					],
+					"port": "3100",
+					"path": [
+						"api",
+						"coche",
+						"reservas",
+						"60dd8c3173503a097c461fab",
+						"7"
+					]
+				},
+				"description": "Elimina el objeto con idProveedor = {idProv} de la tabla {coleccion} de {proveedor}"
+			},
+			"response": []
+		},
+		{
+			"name": "/api/usuarios/{id}",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "MITOKEN123456789",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"60e09c3de27ce50ababb2e9c\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://192.168.0.9:3101/api/usuarios/60e09c3de27ce50ababb2e9c",
+					"protocol": "https",
+					"host": [
+						"192",
+						"168",
+						"0",
+						"9"
+					],
+					"port": "3101",
+					"path": [
+						"api",
+						"usuarios",
+						"60e09c3de27ce50ababb2e9c"
+					]
+				},
+				"description": "Elimina al usuario con id = {id} de la BD"
+			},
+			"response": []
+		}
+	]
+}
