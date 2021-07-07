@@ -692,10 +692,11 @@ app.post('/api/:proveedores/:colecciones/:id/:idProv', authFRONT,(req, res, next
         else{
             res.json("End-point inválido");
         }
-    }
-  
- });
+    }  
+});
 
+//////////////////////////////////////////////////////////////////
+// Creamos un nuevo objeto en la coleccion = req.params.colecciones del proveedor = req.params.proveedores
 app.post('/api/:proveedores/:colecciones/:id', auth, (req, res, next) => {
     const nuevoElemento = req.body;
     const queColeccion = req.params.colecciones;
@@ -723,7 +724,7 @@ app.post('/api/:proveedores/:colecciones/:id', auth, (req, res, next) => {
 });
 
 /////////////////////////////////////////////////////
-
+// Modificamos una nueva reserva en la coleccion reservas del proveedor y en la coleccion reservas de Agencia
 app.put('/api/:proveedores/:colecciones/:id/:idProveedor', authFRONT, (req ,res, next) => {
     const queColeccion = req.params.colecciones;
     var nuevoElemento = req.body;
@@ -753,7 +754,7 @@ app.put('/api/:proveedores/:colecciones/:id/:idProveedor', authFRONT, (req ,res,
 });
 
 /////////////////////////////////////////////////////
-
+// Eliminamos  una nueva reserva en la coleccion reservas del proveedor y en la coleccion reservas de Agencia
 app.delete('/api/:proveedores/:colecciones/:id/:idProveedor', auth, (req, res, next) => {
     const queColeccion = req.params.colecciones;
     var nuevoElemento = req.body;
@@ -780,6 +781,8 @@ app.delete('/api/:proveedores/:colecciones/:id/:idProveedor', auth, (req, res, n
     .catch(err => console.log(err));
 });
 
+/////////////////////////////////////////////////////
+// Eliminamos el usuario de la coleccionen agencias con id = req.params.id
 app.delete('/api/usuarios/:id', auth, (req, res, next) => {
     const queId = req.params.id;
     const iD = req.body;

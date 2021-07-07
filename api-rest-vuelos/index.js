@@ -86,7 +86,6 @@ function auth(req, res, next){
 }
 
 /////////////////////////////////////////////////////
-
 // Obtengo las colecciones de la base de datos
 app.get('/api', (req, res, next) => {
 	db.getCollectionNames((err, colecciones) => {
@@ -102,6 +101,7 @@ app.get('/api', (req, res, next) => {
 	});
 });
 
+/////////////////////////////////////////////////////
 // Obtengo todos los elementos de una colección
 app.get('/api/:colecciones', (req, res, next) => {
 	const queColeccion = req.params.colecciones;
@@ -120,6 +120,7 @@ app.get('/api/:colecciones', (req, res, next) => {
 
 
 
+/////////////////////////////////////////////////////
 // Obtengo un objeto específico de la colección especificada
 app.get('/api/:colecciones/:id', (req, res, next) => {
 	const queColeccion = req.params.colecciones;
@@ -154,6 +155,8 @@ app.get('/api/:colecciones/:id', (req, res, next) => {
 	}
 });
 
+/////////////////////////////////////////////////////
+// Creamos un nuevo objeto en la coleccion especificada
 app.post(('/api/:coleccion'), auth, (req, res, next) => {
 	const nuevoElemento = req.body;
 	const queColeccion = req.params.coleccion;
@@ -199,6 +202,11 @@ app.post(('/api/:coleccion'), auth, (req, res, next) => {
 	}
 });
 
+/////////////////////////////////////////////////////
+// Modificamos un objeto de la coleccion = req.params.coleccion
+// Hay que destacar el uso de las dos ids
+// La primera ID es por si se pasa una id del tipo que asigna MongoDB
+// La segunda ID es por si le pasamos el ID de un proveedor para borrar una reserva
 app.put(('/api/:coleccion/:id/:id2'), auth, (req, res, next) => {
 	const queId = req.params.id;
 	const queId2 = req.params.id2;
@@ -255,6 +263,8 @@ app.put(('/api/:coleccion/:id/:id2'), auth, (req, res, next) => {
 	}	
 });
 
+/////////////////////////////////////////////////////
+// Modificamos de la coleccion = req.params.coleccion el objeto con id = req.param.id
 app.put(('/api/:coleccion/:id'), auth, (req, res, next) => {
 	const queId = req.params.id;
 	const idReserva = req.body.idReserva;
@@ -279,6 +289,8 @@ app.put(('/api/:coleccion/:id'), auth, (req, res, next) => {
 	);
 });
 
+/////////////////////////////////////////////////////
+// Eliminamos de la coleccion = req.params.coleccion el objeto con id = req.param.id
 app.delete(('/api/:coleccion/:id'), auth, (req, res, next) => {
 	const queId = req.params.id;
 	const idReserva = req.body.idReserva;
